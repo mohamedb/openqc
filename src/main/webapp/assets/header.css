@@ -1,0 +1,147 @@
+/** Copyright & @Autor Mohamed Boullouz
+    Contact mohamed.boullouz@gmail.com
+*/
+.navbar {
+    position: relative;
+    min-height: 30px;
+    max-height: 40px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 0px;
+}
+.navbar-default {
+    background-color: rgb(255, 255, 255);
+}
+
+.navbar-default .navbar-brand {
+    color: #555;    
+    font-family: Impact, Charcoal, sans-serif !important;
+    border-right: 4.5px solid rgb(242, 242, 242);
+}
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+    margin-top: -7px;
+    width: 179px;
+}
+.navbar-default .navbar-nav > li > a {
+    padding: 3px;
+    color: black;
+} 
+.menu-item-a{
+    line-height: 24px;
+    border-left: 5px solid transparent;
+    display: block;
+    overflow: hidden;
+    display: inline-block;
+    
+    margin-left: 9px;
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.menu-item-a:hover{
+     background-color: #DDE4EA !important;
+}
+.navbar-default .navbar-toggle {
+    border-color: #3C90EF;
+    margin: 0px;
+}
+.active {    
+    border-bottom: 2px solid rgb(73, 110, 226);
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    cursor: pointer;
+
+}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: #eee;
+    border-color: #DDE4EA; 
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #212F40;
+    background-color: #DDE4EA;
+}
+.dropdown-menu{
+    background-color: white;
+    border-radius: 4px !important;
+    width: 220px;
+    max-width: 250px;
+    overflow-x: auto;
+    max-height: 175px;
+    padding-right: 3px;
+    overflow-y: auto;
+}
+.dropdown-menu > li > a {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    font-size: 12px;
+    line-height: 22px;
+    height: 22px;
+    margin-bottom: 1px;
+    border-left: 5px solid transparent;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 9px;
+    display: block;
+    overflow: hidden;
+    color: #212f40;
+    font-weight: 600;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: white;
+    background-color:#1f8dd6;
+}
+#nav_search_input {
+    border: 1px solid #afbcc8;
+    width: 200px;
+    height: 26px;
+    float: left;
+    margin-top: 7px;
+    margin-left: 2%;
+    border-radius: 16px;
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+    border-color: #afbcc8;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #afbcc8;
+    outline: 0 none;
+}
+.search-results{
+    position: relative;
+    top: 35px;
+    left: -200px;
+}
+.dropdown-sign{
+    color: rgb(73, 110, 226);
+    font-size: 16px;
+}
+.navbar-collapse.in { /* Buggy if exited witoud pressing Collapse btn! */
+    overflow-y: auto;
+    background: white;
+    border: 2px solid gray;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #FFFFFF;
+}

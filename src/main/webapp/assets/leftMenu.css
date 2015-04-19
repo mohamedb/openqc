@@ -1,0 +1,52 @@
+/** Copyright & @Autor Mohamed Boullouz
+    Contact mohamed.boullouz@gmail.com
+*/
+
+.left-menu{
+    margin-left: -16px;
+    padding-bottom: 3px;
+    margin-bottom: 12px;
+    background-color: white;
+    /*background-color: rgb(122, 147, 224);*/
+    /*background-color:-webkit-gradient(linear, left top, left bottom, from(white), color-stop(100%, #f2f2f2));*/
+    box-shadow: inset 0px 0px #ECF1A5, 4px 4px 1px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 0px 0px #ECF1A5, 4px 4px 1px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: inset 0px 0px #ECF1A5, 4px 4px 1px rgba(0, 0, 0, 0.1);
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    display: box;
+    display: -webkit-box;
+/*    display: -moz-box;*/
+    display: -ms-flexbox;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-flex-direction: column;
+}
+.sidebar-item-a{
+    line-height: 20px;
+    border-left: 5px solid transparent;
+    display: block;
+    overflow: hidden;
+    display: inline-block;
+    color: black;
+    font-size: 11px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-left: 2.5px solid white;
+    padding: 6px 10px !important;
+}
+.sidebar-item-a:hover{
+    background: #DDE4EA !important;
+    font-weight: 700;
+    border-left: 2.5px solid rgb(73, 110, 226);
+}
+
+.sidebar-item-a-active{
+    background: #DDE4EA !important;
+    font-weight: 700;
+    border-left: 2.5px solid rgb(73, 110, 226);
+}
+

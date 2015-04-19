@@ -1,0 +1,20 @@
+<br>
+<b>User List</b><br>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Email</th>
+            <th></th>
+             
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat=" user in users">
+            <th scope="row">{{user.id}}</th>
+            <td>{{user.email}}</td>
+            <td> <button class="new-btn new-primary-btn">Edit</button> </td>
+        </tr>
+         
+    </tbody>
+</table>

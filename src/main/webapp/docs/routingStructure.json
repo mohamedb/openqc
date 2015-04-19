@@ -1,0 +1,22 @@
+[
+    {
+        "routeName": "theRouteToIndex",
+        "url": "/users/index",
+        "Controller": "org.controllers.MyController",
+        "Action": "doIndex",
+        "Args": {
+            "id": "Integer",
+            "name": "String"
+        }
+    },
+    {
+        "routeName": "theRouteToAddUser",
+        "url": "/users/add",
+        "Controller": "org.controllers.AnotherController",
+        "Action": "doAddUser",
+        "Args": {
+            "id": "Integer",
+            "name": "String"
+        }
+    }
+]

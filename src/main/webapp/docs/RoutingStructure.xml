@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<routes>
+    <route>
+        <routeName>theRouteToIndex</routeName>
+        <url>/users/index</url>
+        <Controller>org.controllers.MyController</Controller>
+        <action>allUsers</action>
+        <args>
+            <arg>
+                <name>id</name>
+                <type>Integer</type>
+                <match>[0,9]</match>
+            </arg>
+            <arg>
+                <name>name</name>
+                <type>String</type>
+                <match></match>
+            </arg>
+        </args>
+    </route>
+    <route>
+        <routeName>theRouteToAddUser</routeName>
+        <url>/users/add</url>
+        <Controller>org.controllers.AnotherController</Controller>
+        <action>allUsers</action>
+        <args>
+            <arg>
+                <name>id</name>
+                <type>Long</type>
+            </arg>             
+        </args>
+    </route>
+</routes>
