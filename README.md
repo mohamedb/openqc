@@ -1,6 +1,6 @@
 # openqc
 This app is a demonstration and can be used as a starter skelton  for a web app using:
-<b>
+<b><br>
 -Jersey (Jax-Rs)<br>
 -AngularJs<br>
 -Apache Shiro (for authentification and co!)<br>
