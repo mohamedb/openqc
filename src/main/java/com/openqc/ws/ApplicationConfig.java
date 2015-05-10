@@ -15,6 +15,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.Application;
+import org.secnod.shiro.jersey.AuthInjectionBinder;
+import org.secnod.shiro.jersey.AuthorizationFilterFeature;
+import org.secnod.shiro.jersey.SubjectFactory;
 
 /**
  *
@@ -38,6 +41,9 @@ public class ApplicationConfig extends Application {
         set.add(new JacksonJsonProvider().configure(SerializationFeature.INDENT_OUTPUT, true)
                 .configure(DeserializationFeature.WRAP_EXCEPTIONS, true)
         );
+        set.add(new AuthorizationFilterFeature());
+        set.add(new SubjectFactory());
+        set.add(new AuthInjectionBinder());
         return set;
     }
 
@@ -63,8 +69,9 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        //resources.add(com.openqc.utils.CustomObjectMapperProvider.class);//this not working in case of returning response
+        resources.add(com.openqc.utils.CustomObjectMapperProvider.class);//this not working in case of returning response
         resources.add(com.openqc.ws.AuthResource.class);
+        resources.add(com.openqc.ws.RoleResource.class);
         resources.add(org.glassfish.jersey.server.wadl.internal.WadlResource.class);
     }
 

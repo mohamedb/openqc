@@ -12,7 +12,6 @@ import com.openqc.auth.UserAuth;
 import com.openqc.auth.UserAuthImpl;
 import com.openqc.entities.User;
 import com.openqc.facades.UserFacadeLocal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +36,7 @@ import org.apache.shiro.subject.Subject;
  *
  * @author ABCD-user
  */
+ 
 @Path("/auth")
 public class AuthResource {
 
@@ -87,15 +87,21 @@ public class AuthResource {
     @Produces("application/json")
     public Response isAuthenticated(@PathParam("username") String userNameParam) {
         /* check that the session contains the username */
-
         String userName = (String) request.getSession().getAttribute("username");
         if (userName != null && !userName.trim().equals("") && userName.equalsIgnoreCase(userNameParam)) {
             return Response.status(Response.Status.OK).entity(userNameParam).build();
         }
         return Response.status(Response.Status.NOT_FOUND).entity("NOT_FOUND").build();
     }
+    
+     
+    @Path("/h")
+    public RoleResource getSub(){
+        return new RoleResource();
+    }
+     
 
-    @RequiresAuthentication
+    
     @Path("/current")
     @GET
     @Consumes("application/json")

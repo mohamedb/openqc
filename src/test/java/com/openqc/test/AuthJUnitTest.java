@@ -6,7 +6,6 @@
 package com.openqc.test;
 
 import com.openqc.auth.UAuthObject;
-import com.openqc.utils.CustomObjectMapperProvider;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -41,7 +40,7 @@ public class AuthJUnitTest {
     
     @Test
     public void mustUserRoleEqualToAdmin(){
-        
+        logInWithUsernameAsEmailAndPassword();
         WebTarget target = client.target(BASE_URI + "/current");        
         Response response = target.queryParam("", "med@med.com").request().get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -53,15 +52,9 @@ public class AuthJUnitTest {
     public static void setUpClass() {
         BASE_URI = "http://localhost:8080/openqc/ws/auth";
         client = ClientBuilder.newBuilder()
-                .register(CustomObjectMapperProvider.class) // No need to register this provider if no special configuration is required.
                 .register(JacksonFeature.class)
                 .build();
-        
-        //login
-//        WebTarget target = client.target(BASE_URI + "/login");
-//        UAuthObject u = new UAuthObject("med@med.com", "med", true);
-//        Entity<UAuthObject> userEntity = Entity.entity(u, MediaType.APPLICATION_JSON);
-//        Response response = target.request().post(userEntity);
+      
     }
 
     @AfterClass
