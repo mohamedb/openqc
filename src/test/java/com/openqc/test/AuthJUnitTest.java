@@ -36,6 +36,16 @@ public class AuthJUnitTest {
         Response response = target.request().post(userEntity);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("OK", response.readEntity(String.class));
+        
+    }
+    
+    @Test
+    public void mustUserRoleEqualToAdmin(){
+        
+        WebTarget target = client.target(BASE_URI + "/current");        
+        Response response = target.queryParam("", "med@med.com").request().get();
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(true, response.readEntity(String.class));
     }
 
 
@@ -46,6 +56,12 @@ public class AuthJUnitTest {
                 .register(CustomObjectMapperProvider.class) // No need to register this provider if no special configuration is required.
                 .register(JacksonFeature.class)
                 .build();
+        
+        //login
+//        WebTarget target = client.target(BASE_URI + "/login");
+//        UAuthObject u = new UAuthObject("med@med.com", "med", true);
+//        Entity<UAuthObject> userEntity = Entity.entity(u, MediaType.APPLICATION_JSON);
+//        Response response = target.request().post(userEntity);
     }
 
     @AfterClass

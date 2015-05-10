@@ -16,9 +16,12 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 /**
- *
+ * This methode is provided in the official documentation
+ * But still not working in case of returnig a Response object
+ * serialization is not performed!
  * @see https://github.com/jersey/jersey/tree/2.17/examples/json-jackson/src/main/java/org/glassfish/jersey/examples/jackson
  */
+@Deprecated
 @Provider
 public class CustomObjectMapperProvider implements ContextResolver<ObjectMapper> {
 
@@ -39,14 +42,15 @@ public class CustomObjectMapperProvider implements ContextResolver<ObjectMapper>
 //        if (type == CombinedAnnotationBean.class) {
 //            return combinedObjectMapper;
 //        } else {
-            return defaultObjectMapper;
+        
+            return combinedObjectMapper;
 //        }
     }
 
     private static ObjectMapper createCombinedObjectMapper() {
         return new ObjectMapper()
                 .configure(SerializationFeature.WRAP_ROOT_VALUE, true)
-                .configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
+                .configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true)
                 .setAnnotationIntrospector(createJaxbJacksonAnnotationIntrospector());
     }
 

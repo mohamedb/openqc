@@ -1,6 +1,8 @@
 package com.openqc.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -17,6 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "User")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class User implements Serializable {
 
     protected static final long serialVersionUID = 1L;
