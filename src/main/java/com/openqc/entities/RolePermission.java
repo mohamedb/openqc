@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Copyright Mohamed Boullouz <mohamed.boullouz@gmail.com>
+ * This file is part of OpenQC Project
+ *
  */
 package com.openqc.entities;
 
@@ -16,13 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
-/**
- *
- * @author Mohamed
- */
 @Entity
-@Table(name = "UserRole")
-public class UserRole implements Serializable {
+@Table(name = "RolePermission")
+public class RolePermission implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,10 +26,10 @@ public class UserRole implements Serializable {
     private Long id;
 
     @ManyToOne
-    private User user;
+    private Role role;
 
     @ManyToOne
-    private Role role;
+    private Permission permission;
 
     @Column(name = "addAt")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -43,24 +39,20 @@ public class UserRole implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date updateAt;
 
-    public Long getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Permission getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Permission permission) {
+        this.permission = permission;
     }
 
     public Date getAddAt() {
@@ -78,7 +70,11 @@ public class UserRole implements Serializable {
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
     }
-    
+
+    public Long getId() {
+        return id;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -93,10 +89,10 @@ public class UserRole implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserRole)) {
+        if (!(object instanceof RolePermission)) {
             return false;
         }
-        UserRole other = (UserRole) object;
+        RolePermission other = (RolePermission) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +101,7 @@ public class UserRole implements Serializable {
 
     @Override
     public String toString() {
-        return "com.openqc.entities.UserRole[ id=" + id + " ]";
+        return "com.openqc.entities.RolePermission[ id=" + id + " ]";
     }
 
 }

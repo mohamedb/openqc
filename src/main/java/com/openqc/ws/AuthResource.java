@@ -5,9 +5,16 @@
  */
 package com.openqc.ws;
 
-import java.io.IOException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.openqc.auth.UAuthObject;
+import com.openqc.auth.UserAuth;
+import com.openqc.auth.UserAuthImpl;
+import com.openqc.facades.UserFacade;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.POST;
@@ -15,9 +22,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
-import org.codehaus.jackson.map.ObjectMapper;
+ 
 
 /**
  * REST Web Service
@@ -26,59 +36,81 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @Path("/auth")
 public class AuthResource {
-
+    
+    
+    @Context
+    private HttpServletRequest request;
+    
     @Context
     private UriInfo context;
-    private final Subject currentUser = SecurityUtils.getSubject(); 
-ObjectMapper mapper = new ObjectMapper();
+    //private  Subject currentUser = SecurityUtils.getSubject();
+    private UserAuth userAuth = new UserAuthImpl();
+ 
+
     /**
      * Creates a new instance of AuthsResource
      */
     public AuthResource() {
     }
 
+    
     /**
-     * Retrieves representation of an instance of com.openqc.ws.AuthResource
-     * @return an instance of java.lang.String
+     * Login using username/email and password and rememberMe=true
+     * @see UAuthObject construction, because we use Jakson to perform Ser/deseialization
+     * @param content
+     * @return 
      */
-    @GET
-    @Produces("application/json")
-    public String getJson() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * POST method for creating an instance of AuthResource
-     * @param content representation for the new resource
-     * @return an HTTP response with content of the created resource
-     */
-    @Path("/check")
+    @Path("/login")
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public String isAuthenticated(String content) {
-        String jsonResponse=null;
-        try {
-            jsonResponse = mapper.writeValueAsString(currentUser.isAuthenticated());
-        } catch (IOException ex) {
-            Logger.getLogger(EtudiantsResource.class.getName()).log(Level.SEVERE, null, ex);
+    public Response login(UAuthObject content) {
+        if (userAuth.login(content)) {
+            return Response.status(Response.Status.OK).entity("OK").build();
         }
-         return jsonResponse;
+        return Response.status(Response.Status.FORBIDDEN).entity("BadCredentials").build();
     }
+ 
+    /**
+     * POST method for checking whether a user is auth and is in the Session variable
+     * created by Shiro auth framework
+     * @see com.openqc.auth.UserAuthImpl#login(com.openqc.auth.UAuthObject)
+     * @param userNameParam
+     * @return content with the same username if found in the session var
+     */
+    @Path("/check/{username}")
+    @GET
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response isAuthenticated(@PathParam("username") String userNameParam) {
+        /* check that the session contains the username */ 
+        
+        String userName=(String)request.getSession().getAttribute("username");
+        if( userName!=null && !userName.trim().equals("") && userName.equalsIgnoreCase(userNameParam)   ){
+            return Response.status(Response.Status.OK).entity(userNameParam).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).entity("NOT_FOUND").build();
+    }
+    
+    @RequiresAuthentication
     @Path("/current")
     @GET
     @Consumes("application/json")
     @Produces("application/json")
-    public String getCurrentUser() {
-        String jsonResponse=null;
-        try {
-            jsonResponse = mapper.writeValueAsString(currentUser.getPrincipal());
-        } catch (IOException ex) {
-            Logger.getLogger(EtudiantsResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         return jsonResponse;
-    }
+    public Response getCurrentUser() {
+         Subject currentUser = SecurityUtils.getSubject();
+         System.out.println("\n ========= Entred ==========");
+          boolean hasRole= currentUser.hasRole("admin");
 
-     
+         ObjectMapper mapper = new ObjectMapper();
+        String str=null;
+        try {
+            str = mapper.writeValueAsString(hasRole);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(AuthResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         return Response.status(Response.Status.OK).entity(str).build();
+    }
+    
 }

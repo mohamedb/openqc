@@ -6,13 +6,14 @@
 package com.openqc.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -21,47 +22,56 @@ import javax.persistence.Temporal;
  * @author Mohamed
  */
 @Entity
-@Table(name = "UserRole")
-public class UserRole implements Serializable {
+@Table(name = "Role")
+public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private User user;
-
-    @ManyToOne
-    private Role role;
+    @Column(name = "name", unique = true)
+    private String name;
+    
+    @OneToMany(mappedBy="role", targetEntity = UserRole.class)
+     private Collection<UserRole> userRoles;
+    
+    @OneToMany(mappedBy = "role", targetEntity = RolePermission.class)
+    private Collection<RolePermission> rolePermissions;
 
     @Column(name = "addAt")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date addAt;
 
-    @Column(name = "updateAt")
+    @Column(name = "updateAt",nullable = true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date updateAt;
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public User getUser() {
-        return user;
+    public Collection<RolePermission> getRolePermissions() {
+        return rolePermissions;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setRolePermissions(Collection<RolePermission> rolePermissions) {
+        this.rolePermissions = rolePermissions;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Role getRole() {
-        return role;
+    public Collection<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setUserRoles(Collection<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
+
+     
 
     public Date getAddAt() {
         return addAt;
@@ -79,6 +89,11 @@ public class UserRole implements Serializable {
         this.updateAt = updateAt;
     }
     
+    
+    public Long getId() {
+        return id;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -93,10 +108,10 @@ public class UserRole implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserRole)) {
+        if (!(object instanceof Role)) {
             return false;
         }
-        UserRole other = (UserRole) object;
+        Role other = (Role) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +120,7 @@ public class UserRole implements Serializable {
 
     @Override
     public String toString() {
-        return "com.openqc.entities.UserRole[ id=" + id + " ]";
+        return "com.openqc.entities.Role[ id=" + id + " ]";
     }
 
 }

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+    <head>
+        <title>{% block title %}Bienvenue sur iMED{% endblock %}</title>
+        <meta charset="utf-8"/>
+            
+
+                
+                <link rel="icon" type="image/png" href="{{ asset('images/ePATIENT-fla.png') }}"/>
+                    <!-- CSS Global Compulsory-->
+
+                    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css" />
+                    <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
+                    <link rel="stylesheet" href="{{ asset('css/header.css') }}" type="text/css" />
+                    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}" type="text/css" />
+                    <link rel="stylesheet" href="{{ asset('css/personnalisation.css') }}" type="text/css" />
+                    <!-- CSS Implementing Plugins -->
+                    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}" type="text/css" />
+                    <link rel="stylesheet" href="{{ asset('css/flexslider.css') }}" type="text/css" />
+                    <!-- CSS Page Style -->
+                    <link rel="stylesheet" href="{{ asset('css/page_search.css') }}" type="text/css" />
+                    <link rel="stylesheet" href="{{ asset('css/page_magazine.css') }}" type="text/css" />
+                    <!-- CSS Theme -->
+                    <link rel="stylesheet" href="{{ asset('css/blue.css') }}" type="text/css" />
+                    <link rel="stylesheet" href="{{ asset('css/header2-blue.css') }}" type="text/css" id="style_color-header-2" />
+                    <!-- CSS Slider -->
+                    <link rel="stylesheet" href="{{ asset('css/featured_slide.css') }}" type="text/css" />		
+                    <link rel="stylesheet" href="{{ asset('css/uploadfile.css') }}" type="text/css" />
+                    <link rel="stylesheet" href="{{ asset('js/fancy/jquery.fancybox.css') }}" type="text/css" />	
+                    {# 		Tooltip plugin: css file		#}        
+                    {#         <link rel="stylesheet" href="{{ asset('js/tooltipster/tooltipster.css') }}" type="text/css" />#}
+
+
+
+                    {% block stylesheets %}{% endblock %}
+
+                    <script type="text/javascript" src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+                    <!--  Var very imprtant to choose depending on where to deploy the app 
+                              it contains the absolut path to the Web folder, so that Angular JS  
+                              wont loose his mind trying to find baseUrl. 
+                              this var is intended to be specific to every app, 
+                              If you are working on local machine please update it!!
+                    -->        
+                    <script>
+            //var baseUrl = '/../'; /* Server */
+            //var baseUrl = '/../v1/web/'; /* Windows sur machine locale */
+            var baseUrl = '/../e1/web/'  /* debian sur machine locale */;
+                    </script>
+            
+                    </head>
+                    <body>
+                        <!--=== Top ===-->
+                        <div class="top-v1">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <ul class="list-unstyled top-v1-contacts">
+                                            <li>
+                                                <i class="icon-phone"></i>
+                                                Hotline: 09 72 38 90 34
+                                            </li>
+                                            <li>
+                                                <a href="#" onClick="MyWindow = window.open('http://intranetmedical.com/eSupport/decla/ePatient/', 'MyWindow', 'scrollbars=1,width=450,height=450');
+                                        return false;">
+                                                    Support
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="top">
+                                        <ul class="loginbar pull-right">
+                                            {% block entete %}
+                                            {% endblock %}
+
+                                            <!-- #######################-aller a la messagerie:+ nbr non-lus-########################## -->
+                                            {% if is_granted('ROLE_PERSONNEL_INTERNE') %}
+                                            {# <li>
+                                                <a href="#">
+                                                    Mon Tableau de bord
+                                                </a>
+                                            </li>
+                                            <li class="devider"></li> #}
+                                            <li>
+                                                {% render controller('iMedSiteBundle:Notification:allNotifications') %}
+                                            </li>
+                                            <li class="devider"></li>
+                                            <li>
+                                                {# 									<a href="{{ path('messagerie_index' ) }}">#}
+                                                    {# 										Messages:#}
+                                                    {# 									</a>#}
+                                                {% render controller('iMedMessagerieBundle:MessageNotification:notification') %}
+                                            </li>
+                                            <li class="devider"></li>
+                                            {% endif %}
+
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                            {% block optionBackOffice %}{% endblock %}
+                                            {% endif %}
+
+
+                                            <li class="devider"></li>
+                                            <li>
+                                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                                                <a href="{{ path('fos_user_security_logout') }}">
+                                                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                                                </a>
+                                                {% else %}
+                                                <a href="{{ path('fos_user_security_login') }}">
+                                                    {{ 'Accès agent' | upper }}
+                                                </a>
+                                                {% endif %}
+                                            </li>
+
+                                        </ul>
+                                    </div><!-- /top -->
+                                </div><!--/row-->
+                            </div><!--/container-->
+                        </div><!--/top-v1-->
+                        <!--=== End Top ===-->
+
+                        {% block body %}
+                        {% endblock %}
+
+
+                        <!--=== Copyright ===-->
+                        <div style="min-height: 0px">
+                            <div class="copyright" style="padding:0px;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <p class="copyright-space">
+                                                2014 &copy; ELFINFO. Tous droits réservés.
+
+                                                {% set cgu = cms_pages_service.findCGU %}
+                                                <a href="{{ (cgu is not empty) ? path('iMedSite_afficherPage', {"id": cgu.id}) : "#"}}">
+                                                    {{'footer.cgu.link'|trans}}
+                                                </a>
+                                                <i class="icon-envelope"></i>
+                                                Email: <a href="mailto:support@intramedical.com">
+                                                    support@intramedical.com
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div><!--/row-->
+                                </div><!--/container-->
+                            </div>
+                        </div>
+                        <!--=== End Copyright ===-->
+
+                        <!-- JS Global Compulsory -->
+
+                        <script type="text/javascript" src="{{ asset('js/jquery-migrate-1.2.1.min.js') }}"></script>
+                        <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+                        <script type="text/javascript" src="{{ asset('js/hover-dropdown.min.js') }}"></script>
+                        <script type="text/javascript" src="{{ asset('js/back-to-top.js') }}"></script>
+                        {# 		<script type="text/javascript" src="{{ asset('js/runClock.js') }}"></script>#}
+
+                        <script type="text/javascript" src="{{ asset('js/fancy/jquery.fancybox.pack.js') }}"></script>
+                        {# 	=============	Tooltip plugin voir documentation dans web/js/tooltipster/	============	#}
+                        {# 		<script type="text/javascript" src="{{ asset('js/tooltipster/jquery.tooltipster.min.js') }}"></script>		#}
+
+                        <!-- JS Page Level -->
+                        <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
+                        <!-- LE JS qui permet de gerer l'upload en temps reel des fichiers   -->
+                        <script type="text/javascript" src="{{ asset('js/jquery.uploadfile.min.js') }}"></script>
+
+                        <!-- ========== FOOTABLE Plugin pour pagination et tables! ========= -->		
+                        <link rel="stylesheet" href="{{ asset('js/footable/css/footable.standalone.css') }}" type="text/css" /> 
+                        <script type="text/javascript" src="{{ asset('js/footable/js/footable.js') }}"></script>
+                        <script type="text/javascript" src="{{ asset('js/footable/js/footable.paginate.js') }}"></script>
+                        <script type="text/javascript" src="{{ asset('js/footable/js/footable.sort.js') }}"></script>
+                        <link href="{{ asset('assets/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" media="screen" id="awsomeFonts">
+                            <!-- ############################### Fichier de l'application JS ################################ -->
+                            <!-- =============	JS	============= -->
+                            <!--FOS js routing bundle : this is required so that Symfony routes are visible to JS as globale variable
+                                Please see the officiale documentation for more information  -->    
+                            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+                            <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+                            <!-- angularjs -->
+                            <script type="text/javascript" src="{{ asset('assets/angular/angularjs/angular.js') }}"></script>
+                            <script type="text/javascript" src="{{ asset('assets/angular/angularjs/angular-animate.min.js') }}"></script>
+                            <script type="text/javascript" src="{{ asset('assets/angular/angularjs/angular-cookies.min.js') }}"></script>
+                            <script type="text/javascript" src="{{ asset('assets/angular/angularjs/angular-sanitize.min.js') }}"></script>
+                            <!-- ui-router -->
+                            <script type="text/javascript" src="{{ asset('assets/angular/plugins/ui-router/angular-ui-router.min.js') }}"></script>
+                            <!-- ui-bootstrap -->
+                            <script type="text/javascript" src="{{ asset('assets/angular/plugins/ui-bootstrap/ui-bootstrap-tpls-0.11.0.min.js') }}"></script>
+                            <!-- textAngular  a simple  Editor for AngularJS -->
+                            <script type="text/javascript"src="{{ asset('assets/lib/textAngular/src/textAngular-sanitize.js') }}"></script>
+                            <script type="text/javascript"src="{{ asset('assets/lib/textAngular/src/textAngular.js') }}"></script>
+                            <script type="text/javascript"src="{{ asset('assets/lib/textAngular/src/textAngularSetup.js') }}"></script>
+
+                            <!-- Underscore Library! -->
+                            <script type="text/javascript"src="{{ asset('assets/lib/underscore/underscore.js') }}"></script>
+                            <script type="text/javascript"src="{{ asset('assets/lib/select/select.js') }}"></script>
+                            <!-- imedApp : les JS communs a toute l'application -->
+                            <script type="text/javascript" src="{{ asset('app/app.js') }}"></script>
+                            <script type="text/javascript" src="{{ asset('app/Shared/factory.js') }}"></script>
+                            <script type="text/javascript" src="{{ asset('app/Shared/service.js') }}"></script>
+                            <script type="text/javascript" src="{{ asset('app/Shared/directive.js') }}"></script>
+                            <script type="text/javascript" src="{{ asset('app/Shared/state.js') }}"></script>
+
+
+                            <!-- Ui-select: plugin pour Angular --> 
+                            <!--[if lt IE 9]>
+                               <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+                               <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.2.0/es5-shim.js"></script>
+                               <script>
+                                 document.createElement('ui-select');
+                                 document.createElement('ui-select-match');
+                                 document.createElement('ui-select-choices');
+                               </script>
+                             <![endif]-->
+
+                            <link rel="stylesheet" href="{{ asset('assets/lib/select/select.css') }}" type="text/css" />
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">  
+                                <!-- Select2 theme -->
+                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+
+                                    {#       Issue: there is no Close small btn! 
+                                    <link rel="stylesheet" href="{{ asset('assets/lib/select/selectize.default.css') }}" type="text/css" />#}
+                                    {# 		 <link rel="stylesheet" href="{{ asset('assets/lib/select/select2.css') }}" type="text/css" />#}
+                                    <!-- Fin ui-Select -->
+                                    {# ++++++++++++  Module angular pour gerer les notifications ! +++++++++++ #}
+                                    <link rel="stylesheet" href="{{ asset('assets/lib/notify/angular-notify.css') }}" type="text/css" />
+                                    <script type="text/javascript" src="{{ asset('assets/lib/notify/angular-notify.js') }}"></script>
+
+                                    <!-- ############################### FIN Fichier de l'application JS ################################ -->
+                                    <script type="text/javascript">
+                                                        jQuery(document).ready(function () {
+                                                            App.init();
+                    // 				runClock();	
+                    // 				$('.tooltip').tooltipster( 
+                    // 						{
+                    // 			                contentAsHTML: true,			                
+                    // 			            }
+                    // 				);
+                                                            App.initFancybox();  /* Lancer le tumbnails */
+                                                            /* Init le Footable et ses plugins  */
+                                                            $('.footable').footable();
+
+                                                            /* Handling ajax calls */
+                                                            $(document).ajaxStart(function () {
+                                                                // when there is a request started
+                                                                $('#ajaxLoading').show();
+                                                            });
+                                                            $(document).ajaxStop(function () {
+                                                                // when all requests finish
+                                                                $('#ajaxLoading').hide();
+                                                            });
+                                                            $(document).ajaxSend(function () {
+                                                                // when a request is sent
+                                                            });
+                                                            $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                                                                $('#alertMessageAjax').addClass('alert-danger');
+                                                                $('#messageAjax').html(thrownError);
+                                                                $('#message_espace').append($('#containerMessageAjax').html());
+                                                            });
+                                                            $(document).ajaxSuccess(function (event, xhr, settings, data) {
+                                                                var jsonData;
+                                                                try {
+                                                                    jsonData = $.parseJSON(data);
+                                                                }
+                                                                catch (err) { // not json data
+                                                                    return;
+                                                                }
+                                                                if (jsonData['messageAjax']) {
+                                                                    switch (jsonData['messageAjaxType']) {
+                                                                        case 'error' :
+                                                                            $('#alertMessageAjax').addClass('alert-danger');
+                                                                            break;
+                                                                        case 'success' :
+                                                                            $('#alertMessageAjax').addClass('alert-success');
+                                                                            break;
+                                                                        default :
+                                                                            $('#alertMessageAjax').addClass('alert-warning');
+                                                                    }
+                                                                    $('#messageAjax').html(jsonData['messageAjax']);
+                                                                    $('#message_espace').append($('#containerMessageAjax').html());
+                                                                }
+                                                            });
+
+                                                            /* maintenir l'affichage du message de chargement pour les appels ajax pendant le scrolling */
+                                                            var $scrollingDiv = $("#ajaxLoading");
+                                                            $(window).scroll(function () {
+                                                                $scrollingDiv
+                                                                        .stop()
+                                                                        .animate({"marginTop": ($(window).scrollTop() + 15) + "px"}, "slow");
+                                                            });
+                                                        });
+                                                        $('[data-toggle="tooltip"]').tooltip();
+                                    </script>
+                                    {% block javascripts %}{% endblock %}
+
+                                    {# contenu message ajax #}
+                                    <div id="containerMessageAjax" style="display:none;">
+                                        <div id="alertMessageAjax" class="alert">
+                                            <button type="button" class="close" data-dismiss="alert">×</button>
+                                            <div id="messageAjax"></div>
+                                        </div>
+                                    </div>
+                                    <div id="ajaxLoading" style="display:none; position:absolute; right:15px; top:15px; z-index:2;">
+                                        <div class="alert alert-warning">
+                                            Chargement...
+                                        </div>
+                                    </div>
+
+                                    </body>
+                                    </html>

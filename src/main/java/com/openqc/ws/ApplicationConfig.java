@@ -29,9 +29,11 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(com.openqc.utils.CustomObjectMapperProvider.class);// jackson mapper
         resources.add(com.openqc.ws.AuthResource.class);
         resources.add(com.openqc.ws.EtudiantResource.class);
         resources.add(com.openqc.ws.EtudiantsResource.class);
+        resources.add(org.glassfish.jersey.server.wadl.internal.WadlResource.class);
     }
     
 }
